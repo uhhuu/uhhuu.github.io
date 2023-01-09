@@ -25,6 +25,7 @@
 </head>
 
 <body>
+    <div class="marker-position">Click on map</div>
     <div id="map"></div>
 </body>
 
@@ -38,46 +39,23 @@
 <script>
     // Map initialization
 
-    /*
-      // Open streetmap
-        // var map = L.map('map').setView([59.393747992895634, 24.659767940059453], 18);
-        var map = L.map('map').setView([0, 0], 5);
-    
-        // OSM layer
-        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
-        osm.addTo(map);
-        // marker
-        // var testMarker = L.marker([59.393747992895634, 24.659767940059453]);
-        var testMarker = L.marker([0, 0], { draggable: true });
-        var popup = testMarker.bindPopup('Marker coordinates: ' + testMarker.getLatLng()).openPopup();
-        testMarker.addTo(map);
-        console.log(testMarker.toGeoJSON());
-     */
-
     var map = L.map('map', {
         crs: L.CRS.Simple,
-        minZoom: -1,
+        minZoom: -2,
         maxZoom: 2
     });
-    var bounds = [[0, 0], [1536,2048]];
+    var bounds = [[0, 0], [3000, 4000]];
     var image = L.imageOverlay('Imogen.jpg', bounds).addTo(map);
     map.fitBounds(bounds);
-
+    map.setZoom(-2);
 
     // click to find coordinates
-    var popup = L.popup();
 
-    function onMapClick(e) {
-        popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
-            .openOn(map);
-    }
-
-    map.on('click', onMapClick);
+    // obtaining coordinates after clicking on the map
+    map.on("click", function (e) {
+        const markerPlace = document.querySelector(".marker-position");
+        markerPlace.textContent = e.latlng;
+    });
 
     // layer control
 
