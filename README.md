@@ -10,7 +10,7 @@ This enables relatively easy adding of markers without need to change code or us
 
 ### Map:
 - The map is represented by a single jpg file, which is displayed using LeafletJS, with markers/labels from a separate (shared) google sheet
-- Coordinates are simple 0:0 to 1000:1000 with 0:0 in bottomleft corner.
+- Coordinates are simple 0:0 to x:y (depending on map image resolution) with 0:0 in bottomleft corner.
 - Clicking on the map shows coordinates: https://tomik23.github.io/leaflet-examples/#05.coordinates-after-clicking-on-the-map
 
 ### Google sheets table structure (determines the features that are supported):
