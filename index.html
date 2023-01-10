@@ -5,59 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imogeni kaart, Leaflet js</title>
+    <title>Custom map with POI-s from Google Sheet</title>
+
+    <!-- main webpage css -->
+    <link rel="stylesheet" href="css/main.css" />
 
     <!-- leaflet css -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            width: 100%;
-            height: 100vh;
-        }
-    </style>
 </head>
 
 <body>
     <div class="marker-position">Click on map</div>
     <div id="map"></div>
+
+    <!-- Javascripts -->
+    <!-- leaflet js -->
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <!-- main app script -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>
-
-<!-- leaflet js -->
-<!-- Make sure you put this AFTER Leaflet's CSS -->
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-
-<script>
-    // Map initialization
-
-    var map = L.map('map', {
-        crs: L.CRS.Simple,
-        minZoom: -2,
-        maxZoom: 2
-    });
-    var bounds = [[0, 0], [3000, 4000]];
-    var image = L.imageOverlay('Imogen.jpg', bounds).addTo(map);
-    map.fitBounds(bounds);
-    map.setZoom(-2);
-
-    // click to find coordinates
-
-    // obtaining coordinates after clicking on the map
-    map.on("click", function (e) {
-        const markerPlace = document.querySelector(".marker-position");
-        markerPlace.textContent = e.latlng;
-    });
-
-    // layer control
-
-
-</script>
