@@ -1,31 +1,29 @@
 # leaflet-custom-map
-Custom interactive map application with markers from Google Sheets (created to show a D&D world map with campaign / player specific POI-s).
-This enables relatively easy adding of markers without need to change code or using complex backend / SQL database interaction (thus also simplifying hosting).
+Custom interactive map application with markers from a table in Google Sheets.
+Use case - custom fantasy game (e.g D&D) world map with points of interest specific to a player or group of players.
+Google sheets based data table is used to enable relatively easy adding of markers without need to change code or using complex backend / SQL database interaction (thus also simplifying hosting).
 
-- Initial idea from: https://github.com/carderne/leaflet-gsheets
-- Modified & expanded to use custom map (for game map purposes) & more options for map markers
-- Uses also examples from: https://github.com/tomik23/leaflet-examples
+Credits:
+- uses Leaflet JS (https://leafletjs.com/) to display map and markers
+- uses PapaParse (https://github.com/mholt/PapaParse) to parse Google sheets data (that has been published to web in csv format)
+- https://github.com/carderne/leaflet-gsheets for the idea
+- https://github.com/tomik23/leaflet-examples for useful leaflet examples
 
-## Quick spec / initial todo (//TODO clean up & move to /docs later?)
-
-### Map:
+## Map:
 - The map is represented by a single jpg file, which is displayed using LeafletJS, with markers/labels from a separate (shared) google sheet
 - Coordinates are simple 0:0 to x:y (depending on map image resolution) with 0:0 in bottomleft corner.
-- Clicking on the map shows coordinates: https://tomik23.github.io/leaflet-examples/#05.coordinates-after-clicking-on-the-map
+- Clicking on the map shows current coordinates (for easy adding to the marker table)
 
-### Google sheets table structure (determines the features that are supported):
-- First column is the entry type.
-- Only certain entry types are recognized, all others are ignored (can be used as comments, recommended to insert # as comment marker in first column, but not required, first column can be left blank)
-- Currently only MARKER entry is recognized (more maybe added later, eg polygon?)
-	- MARKER - map marker with following fields:
-		- LAYER - layer name, where marker appears
-			- idea for a special layer - linked entries that can be viewed in a sidebar? (e.g game episodes tied to specific locations)
-				- https://tomik23.github.io/leaflet-examples/#29.linked-view
-				- https://tomik23.github.io/leaflet-examples/#36.story-maps-IntersectionObserver
-		- POPUP_TEXT - popup text when icon is clicked upon
-		- MAP_TEXT - label text on map below icon
-		- ICON - marker icon (either in current directory or an http: url); if empty, no popup icon is displayed (can be used for showing only map_text directly on map)
-			- https://tomik23.github.io/leaflet-examples/#32.image-icons-prev-next
-		- HOME - only one marker can be "home" (last one is used in case of multiple)
-		- https://tomik23.github.io/leaflet-examples/#41.back-to-home-button
-			
+## Google sheets table structure (determines the features that are supported):
+- layer - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click
+	- idea for a special layer - linked entries that can be viewed in a sidebar? (e.g game episodes tied to specific locations)
+		- https://tomik23.github.io/leaflet-examples/#29.linked-view
+		- https://tomik23.github.io/leaflet-examples/#36.story-maps-IntersectionObserver
+- lat - Latitude coordinate (Y)
+- lng - Longitude coordinate (X)
+- mapText - Text displayed on map, can be left empty for only an icon+popup text. If icon is present, map_text is displayed below icon, otherwise text is displayed at LatLng coordinates.
+- icon - Marker icon (either in current directory or an http: url); if empty, no popup icon is displayed (can be used for showing only text directly on map)
+	- https://tomik23.github.io/leaflet-examples/#32.image-icons-prev-next
+- popupText - Popup text is displayed when icon is clicked
+- home - set to non-blank (eg yes/true) to have a marker associated with home button for centering map on the home marker (only one marker can be "home")
+	- https://tomik23.github.io/leaflet-examples/#41.back-to-home-button
