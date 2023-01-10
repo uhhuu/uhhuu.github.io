@@ -1,15 +1,21 @@
+* {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-size: 13px;
+}
+
+html,
+body,
+#map {
+    height: 100%;
+    width: 100%;
+}
 
 body {
     padding: 0;
     margin: 0;
-}
-html, body, #map {
-    height: 100%;
-    width: 100%;
-}
-#sidebar-content, #sidebar-title {
-    word-break: break-word;
-    margin-right: 40px;
+    background-color: #f1f1f1;
+
 }
 
 .marker-position {
@@ -20,4 +26,4 @@ html, body, #map {
     padding: 10px;
     font-weight: 700;
     background-color: #fff;
-  }
+}
