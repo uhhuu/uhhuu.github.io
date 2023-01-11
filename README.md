@@ -8,7 +8,7 @@ Google sheets based data table is used to enable relatively easy adding of marke
 - PapaParse (https://github.com/mholt/PapaParse) - used to parse Google sheets data (that has been published to web in csv format)
 - https://github.com/carderne/leaflet-gsheets for the idea to get data from google sheets shared cvs (thus avoiding need for database)
 - https://github.com/tomik23/leaflet-examples for useful leaflet examples (eg home button, showing map coordinates on click)
-- Lohe Isok for the map and campaign, which motivated to make this little toy
+- Lohe Isok for the map and D&D campaign, which motivated to make this little toy
 
 ## Map:
 - The map is represented by a single jpg file, which is displayed using LeafletJS, with markers/labels from a separate (shared) google sheet
