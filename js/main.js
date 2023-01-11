@@ -42,10 +42,10 @@ function init() {
     // obtaining coordinates after clicking on the map
     map.on("click", function (e) {
         const markerPlace = document.querySelector(".marker-position");
-        markerPlace.textContent = e.latlng
-        
+        markerPlace.innerHTML = '<i class="fa fa-map-marker"></i> ' + e.latlng
+
         var textArea = document.createElement("textarea");
-        textArea.value = e.latlng.lat + "," + e.latlng.lng;
+        textArea.value = e.latlng.lat + " , " + e.latlng.lng;
 
         // Avoid scrolling to bottom
         textArea.style.top = "0";
@@ -57,9 +57,10 @@ function init() {
         textArea.select();
         try {
             let successful = document.execCommand('copy');
-          } catch(err) {
-            markerPlace.textContent += " (Ctr+C to copy to clipboard)";
-          }
+            markerPlace.innerHTML += " copied to clipboard";
+        } catch (err) {
+            markerPlace.innerHTML += " (Ctr+C to copy to clipboard)";
+        }
     });
 
     try {
@@ -171,12 +172,9 @@ function parseSheet(data) {
             if (!(iconName === null || iconName.trim() === "") || !(popupText === null || popupText.trim() === "")) {
                 if (!(iconName === null || iconName.trim() === "")) {
                     // check for font awesome
-                    if (iconName.substring(0, 2) === "fa") {
-                        // TODO: doesnt work, needs fixing
-                        markerIcon = L.divIcon({
-                            html: '<i class=' + iconName + '</i>',
-                            className: 'myDivIcon'
-                        });
+                    if (iconName.substring(0, 3) === "fa-") {
+                        // not perfect, but a start..
+                        markerIcon = L.AwesomeMarkers.icon({ icon: iconName.substring(3), prefix: 'fa',  markerColor: 'blue', iconColor: 'white' })
                     } else {
                         markerIcon = L.icon({
                             iconUrl: iconName,

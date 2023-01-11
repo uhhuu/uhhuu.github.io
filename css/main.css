@@ -28,6 +28,16 @@ body {
     background-color: #fff;
 }
 
+.copyright {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  padding: 10px;
+  font-weight: 700;
+  background-color: #fff;
+}
+
 .back-to-home {
     cursor: pointer;
     padding: 5px;
@@ -42,4 +52,11 @@ body {
   
   .hidden {
     display: none;
+  }
+
+  .myDivIcon {
+    text-align: center;
+    /* Horizontally center the text (icon) */
+    line-height: 20px;
+    /* Vertically center the text (icon) */
   }
