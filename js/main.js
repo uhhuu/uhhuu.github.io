@@ -36,25 +36,47 @@ function init() {
     });
     let image = L.imageOverlay(baseMapURL, bounds).addTo(map);
     map.fitBounds(bounds);
-    map.setView([homeLat, homeLng],defaultZoom);
+    map.setView([homeLat, homeLng], defaultZoom);
 
     // click to find coordinates
     // obtaining coordinates after clicking on the map
     map.on("click", function (e) {
         const markerPlace = document.querySelector(".marker-position");
-        markerPlace.textContent = e.latlng;
+        markerPlace.textContent = e.latlng
+        
+        var textArea = document.createElement("textarea");
+        textArea.value = e.latlng.lat + "," + e.latlng.lng;
+
+        // Avoid scrolling to bottom
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            let successful = document.execCommand('copy');
+          } catch(err) {
+            markerPlace.textContent += " (Ctr+C to copy to clipboard)";
+          }
     });
 
-    // code for getting data from google sheets url
-    Papa.parse(gsheetURL, {
-        download: true,
-        header: true,
-        complete: parseSheet,
-    });
+    try {
+        // code for getting data from google sheets url
+        Papa.parse(gsheetURL, {
+            download: true,
+            header: true,
+            complete: parseSheet,
+        });
+    } catch (err) {
+        console.log(err)
+        alert(err)
+    }
 
     // add Home button
     const htmlTemplate =
-         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M32 18.451L16 6.031 0 18.451v-5.064L16 .967l16 12.42zM28 18v12h-8v-8h-8v8H4V18l12-9z" /></svg>';
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M32 18.451L16 6.031 0 18.451v-5.064L16 .967l16 12.42zM28 18v12h-8v-8h-8v8H4V18l12-9z" /></svg>';
 
     // create custom button
     const customControl = L.Control.extend({
@@ -121,12 +143,19 @@ function parseSheet(data) {
 
     // for each row in table
     for (let row = 0; row < data.length; row++) {
-        // check that there are coordinates in the row
-        let lat = parseFloat(data[row].lat);
-        let lng = parseFloat(data[row].lng);
         console.log(data[row]);
 
-        if (lat > 0 && lng > 0) {
+        // ignore comment lines (layer field starts with / or #)
+        if (data[row].layer[0] === "/" || data[row].layer[0] === "#") {
+            continue
+        }
+
+        // check that there are coordinates in the row
+        let latlng = data[row].latlng
+        let commaPos = latlng.indexOf(',')
+        if (commaPos >= 0) {
+            let lat = parseFloat(latlng.substr(0, commaPos))
+            let lng = parseFloat(latlng.substr(commaPos + 1))
 
             // TODO: group markers to layers
             let layer = data[row].layer;
@@ -146,19 +175,17 @@ function parseSheet(data) {
                         // TODO: doesnt work, needs fixing
                         markerIcon = L.divIcon({
                             html: '<i class=' + iconName + '</i>',
-                            iconSize: [30, 30],
                             className: 'myDivIcon'
                         });
                     } else {
                         markerIcon = L.icon({
                             iconUrl: iconName,
-                            iconSize: [30, 30]
                         });
                     }
                     // console.log(markerIcon);
                     marker.setIcon(markerIcon);
                 }
-                // console.log(marker);
+                marker.options.icon.options.iconSize = [30, 30];
                 marker.addTo(map).bindPopup(data[row].popupText);
                 hasMarker = true
             }
