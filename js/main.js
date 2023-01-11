@@ -173,17 +173,17 @@ function parseSheet(data) {
                 if (!(iconName === null || iconName.trim() === "")) {
                     // check for font awesome
                     if (iconName.substring(0, 3) === "fa-") {
-                        // not perfect, but a start..
-                        markerIcon = L.AwesomeMarkers.icon({ icon: iconName.substring(3), prefix: 'fa',  markerColor: 'blue', iconColor: 'white' })
+                        // not perfect, but a start.. low prio, since openclipart has much better selection
+                        markerIcon = L.AwesomeMarkers.icon({ icon: iconName.substring(3), prefix: 'fa',  iconColor: 'white' })
                     } else {
                         markerIcon = L.icon({
                             iconUrl: iconName,
+                            iconSize: [30,30]
                         });
                     }
                     // console.log(markerIcon);
                     marker.setIcon(markerIcon);
                 }
-                marker.options.icon.options.iconSize = [30, 30];
                 marker.addTo(map).bindPopup(data[row].popupText);
                 hasMarker = true
             }
