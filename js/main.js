@@ -1,10 +1,19 @@
+// Configuration
+
+// page title
+let titleText = "D&D kaart - Imogeni Maad"
 // google sheets table URL (the table must be published to Web in csv format)
 let gsheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgYjnAPdiJiOVcu6T1kCYIEnz27r_7It7Ipd1-G-hVXeVSHuGsU0NIl9QcB0y-qnXj_bY9ko8zfV5V/pub?output=csv"
-let map
+// base map image
+let baseMapURL = "img/imogen_map.jpg"
+// base map bounds (map bounds should be of same scale as base map image, or the map will be skewed)
 const boundsMinLat = 0
 const boundsMinLng = 0
 const boundsMaxLat = 3000
 const boundsMaxLng = 4000
+
+// global variables
+let map
 let homeLat = (boundsMaxLat - boundsMinLat) / 2
 let homeLng = (boundsMaxLng - boundsMinLng) / 2
 const defaultZoom = 0
@@ -15,6 +24,8 @@ window.addEventListener("DOMContentLoaded", init);
   init() function is called when page is loaded
 */
 function init() {
+    document.title = titleText
+
     // Map initialization
     const bounds = [L.latLng(boundsMinLat, boundsMinLng), L.latLng(boundsMaxLat, boundsMaxLng)];
 
@@ -23,7 +34,7 @@ function init() {
         minZoom: -2,
         maxZoom: 2
     });
-    let image = L.imageOverlay('img/imogen_map.jpg', bounds).addTo(map);
+    let image = L.imageOverlay(baseMapURL, bounds).addTo(map);
     map.fitBounds(bounds);
     map.setView([homeLat, homeLng],defaultZoom);
 
@@ -141,7 +152,7 @@ function parseSheet(data) {
                     } else {
                         markerIcon = L.icon({
                             iconUrl: iconName,
-                            iconSize: [20, 20]
+                            iconSize: [30, 30]
                         });
                     }
                     // console.log(markerIcon);
@@ -158,7 +169,7 @@ function parseSheet(data) {
                 let tooltipOptions = {
                     permanent: true,
                     offset: [0, 0],
-                    opacity: 0.5,
+                    opacity: 0.6,
                     className: 'my-tooltip'
                 }
                 // if marker is on map, add to marker, otherwise standalone
