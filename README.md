@@ -1,7 +1,7 @@
 # leaflet-custom-map
-Simple web application to display a custom interactive map with markers from a table in Google Sheets.
+Simple web application to display a custom interactive map with markers from a csv format table. The table can be either local (eg csv/table.csv) or a Google Sheet that has been published to web in csv format (e.g https://docs.google.com/spreadsheets/d/e/.../pub?output=csv). In the latter case the data file can be easily edited by multiple people.
 Use case - custom fantasy game (e.g D&D) world map with points of interest specific to a player or group of players.
-Google sheets based data table is used to enable relatively easy adding of markers without need to change code or using complex backend / SQL database interaction (thus also simplifying hosting).
+CSV based data table is used to enable relatively easy adding of markers without need to change code or using complex backend / SQL database interaction (thus also simplifying hosting).
 
 ## Credits:
 - Leaflet JS (https://leafletjs.com/) - used to display map and markers
@@ -18,7 +18,7 @@ Google sheets based data table is used to enable relatively easy adding of marke
 - Clicking on the map shows current coordinates and copies them to the clipboard (for easy adding to the marker table)
 - Current map (Imogen world map) is created and copyrighted by Lohe Isok, who has granted permission to use this map for this instance. Please do not copy the map without his permission.
 
-## Google sheets table structure (determines the features that are supported):
+## CSV table structure (determines the features that are supported):
 Note: All fields in table should be specified as text (not automatic or numeric, because that may confuse coordinate input or such), let the script worry about type conversion where needed.
 - comment - if this starts with # or / then the whole row is considered to be a comment, which is ignored. Can be used to (temporarily) disable otherwise valid table entries.
 - layer (not yet implemented) - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click. 

@@ -65,17 +65,17 @@ function init() {
     });
 
     try {
-        Papa.parse(gsheetURL, {
+        Papa.parse(csvURL, {
             download: true,
             header: true,
-            complete: parseSheet,
+            complete: parseCsv,
         });
     } catch (err) {
         console.log(err)
         alert(err)
     }
 
-    console.log("after gsheet parse")
+    console.log("after csv parse")
 
     // add Home button
     const htmlTemplate =
@@ -139,9 +139,9 @@ function init() {
 }
 
 /*
-    parseSheet() is the callback function to parse google sheet data
+    parseCsv() is the callback function to parse csv table data
 */
-function parseSheet(data) {
+function parseCsv(data) {
     data = data.data;
 
     // for each row in table

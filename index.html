@@ -19,13 +19,13 @@
             titleText = paramTitle
         }
 
-        // google sheets table URL (the table must be published to Web in csv format)
-        var gsheetURL
+        // CSV table table URL (if using Google Sheets, then the table must be published to Web in csv format)
+        var csvURL
         if (paramSheet === null || paramSheet === "") {
-            gsheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgYjnAPdiJiOVcu6T1kCYIEnz27r_7It7Ipd1-G-hVXeVSHuGsU0NIl9QcB0y-qnXj_bY9ko8zfV5V/pub?output=csv"
+            csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgYjnAPdiJiOVcu6T1kCYIEnz27r_7It7Ipd1-G-hVXeVSHuGsU0NIl9QcB0y-qnXj_bY9ko8zfV5V/pub?output=csv"
         } else {
-            gsheetURL = paramSheet
-            console.log("gsheetURL:" + gsheetURL)
+            csvURL = paramSheet
+            console.log("csvURL:" + csvURL)
         }
         // test gsheet url - https://docs.google.com/spreadsheets/d/e/2PACX-1vTS2CXWc_6l6zFHtTb9f5prQFgwDCSmqHjCY96bRd6zUU05ilejRrZ_M7XeF6wSr4H2SDFMq8HexRVF/pub?output=csv
 
