@@ -1,16 +1,4 @@
-// Configuration
-
-// page title
-let titleText = "D&D kaart - Imogeni Maad"
-// google sheets table URL (the table must be published to Web in csv format)
-let gsheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgYjnAPdiJiOVcu6T1kCYIEnz27r_7It7Ipd1-G-hVXeVSHuGsU0NIl9QcB0y-qnXj_bY9ko8zfV5V/pub?output=csv"
-// base map image
-let baseMapURL = "img/imogen_map.jpg"
-// base map bounds (map bounds should be of same scale as base map image, or the map will be skewed)
-const boundsMinLat = 0
-const boundsMinLng = 0
-const boundsMaxLat = 3000
-const boundsMaxLng = 4000
+// Configuration - moved to index.html
 
 // global variables
 let map
@@ -32,12 +20,24 @@ function init() {
     map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -2,
-        maxZoom: 2
+        maxZoom: 4
     });
     let image = L.imageOverlay(baseMapURL, bounds).addTo(map);
     map.fitBounds(bounds);
     map.setView([homeLat, homeLng], defaultZoom);
 
+/*    
+    // test an image overlay at specific pos
+    //    var bounds2 = [[1210, 2795], [1110, 2900.66]]
+    var bounds2 = [[1090, 2775], [1215, 2908]]
+    let image2 = L.imageOverlay("img/map_city_test.png", bounds2, { opacity: 0 }).addTo(map);
+    map.on('zoomend', function () {
+        zoom = map.getZoom();
+        if (zoom < 0) image2.setOpacity(0);
+        else if (zoom >= 0 && zoom <= 2) image2.setOpacity((zoom+1)*0.2);
+        else image2.setOpacity(1);
+    });
+*/
     // click to find coordinates
     // obtaining coordinates after clicking on the map
     map.on("click", function (e) {
@@ -45,7 +45,7 @@ function init() {
         markerPlace.innerHTML = '<i class="fa fa-map-marker"></i> ' + e.latlng
 
         var textArea = document.createElement("textarea");
-        textArea.value = e.latlng.lat + " , " + e.latlng.lng;
+        textArea.value = e.latlng.lat + ", " + e.latlng.lng;
 
         // Avoid scrolling to bottom
         textArea.style.top = "0";
@@ -64,7 +64,6 @@ function init() {
     });
 
     try {
-        // code for getting data from google sheets url
         Papa.parse(gsheetURL, {
             download: true,
             header: true,
@@ -174,11 +173,11 @@ function parseSheet(data) {
                     // check for font awesome
                     if (iconName.substring(0, 3) === "fa-") {
                         // not perfect, but a start.. low prio, since openclipart has much better selection
-                        markerIcon = L.AwesomeMarkers.icon({ icon: iconName.substring(3), prefix: 'fa',  iconColor: 'white' })
+                        markerIcon = L.AwesomeMarkers.icon({ icon: iconName.substring(3), prefix: 'fa', iconColor: 'white' })
                     } else {
                         markerIcon = L.icon({
                             iconUrl: iconName,
-                            iconSize: [30,30]
+                            iconSize: [30, 30]
                         });
                     }
                     // console.log(markerIcon);

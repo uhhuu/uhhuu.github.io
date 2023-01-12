@@ -19,12 +19,16 @@ Google sheets based data table is used to enable relatively easy adding of marke
 - Current map (Imogen world map) is created and copyrighted by Lohe Isok, who has granted permission to use this map for this instance. Please do not copy the map without his permission.
 
 ## Google sheets table structure (determines the features that are supported):
-- layer - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click. If it starts with # or / the row is considered to be a comment, which is ignored
+Note: All fields in table should be specified as text (not automatic or numeric, because that may confuse coordinate input or such), let the script worry about type conversion where needed.
+- layer (not yet implemented) - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click. If it starts with # or / the row is considered to be a comment, which is ignored
 	- idea for a special layer - linked entries that can be viewed in a sidebar? (e.g game episodes tied to specific locations)
 		- https://tomik23.github.io/leaflet-examples/#29.linked-view
 		- https://tomik23.github.io/leaflet-examples/#36.story-maps-IntersectionObserver
 - latlng - coordinates separated by comma (Y, X)
 - mapText - Text displayed on map, can be left empty for only an icon+popup text. If icon is present, map_text is displayed besides icon, otherwise text is displayed at latLng coordinates.
-- icon - Marker icon (either relative to webserver or an http: url); if empty, no popup icon is displayed (can be used for showing only text directly on map). Can also use Font Awesome 4.7 icon (eg "fa-coffee")
+- icon - Marker icon. Can be one of:
+	- empty for default marker icon (only if popupText is not empty),
+	- Font Awesome 4.7 icon (eg "fa-coffee") or 
+	- specify image on webserver eg img/myicon.png
 - popupText - Popup text is displayed when icon is clicked
 - home - set to non-blank (eg yes/true) to have a marker associated with home button for centering map on the home marker (only one marker can be "home")
