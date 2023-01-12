@@ -20,7 +20,8 @@ Google sheets based data table is used to enable relatively easy adding of marke
 
 ## Google sheets table structure (determines the features that are supported):
 Note: All fields in table should be specified as text (not automatic or numeric, because that may confuse coordinate input or such), let the script worry about type conversion where needed.
-- layer (not yet implemented) - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click. If it starts with # or / the row is considered to be a comment, which is ignored
+- comment - if this starts with # or / then the whole row is considered to be a comment, which is ignored. Can be used to (temporarily) disable otherwise valid table entries.
+- layer (not yet implemented) - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click. 
 	- idea for a special layer - linked entries that can be viewed in a sidebar? (e.g game episodes tied to specific locations)
 		- https://tomik23.github.io/leaflet-examples/#29.linked-view
 		- https://tomik23.github.io/leaflet-examples/#36.story-maps-IntersectionObserver

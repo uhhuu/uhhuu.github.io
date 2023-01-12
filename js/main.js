@@ -22,6 +22,7 @@ function init() {
         minZoom: -2,
         maxZoom: 4
     });
+    map.attributionControl.addAttribution(baseMapAttribution);
     let image = L.imageOverlay(baseMapURL, bounds).addTo(map);
     map.fitBounds(bounds);
     map.setView([homeLat, homeLng], defaultZoom);
@@ -74,6 +75,8 @@ function init() {
         alert(err)
     }
 
+    console.log("after gsheet parse")
+
     // add Home button
     const htmlTemplate =
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M32 18.451L16 6.031 0 18.451v-5.064L16 .967l16 12.42zM28 18v12h-8v-8h-8v8H4V18l12-9z" /></svg>';
@@ -98,7 +101,7 @@ function init() {
         },
     });
 
-    // adding new button to map controll
+    // adding new button to map control
     map.addControl(new customControl());
 
     // on drag end
@@ -145,8 +148,8 @@ function parseSheet(data) {
     for (let row = 0; row < data.length; row++) {
         console.log(data[row]);
 
-        // ignore comment lines (layer field starts with / or #)
-        if (data[row].layer[0] === "/" || data[row].layer[0] === "#") {
+        // ignore comment lines (comment field starts with / or #)
+        if (data[row].comment[0] === "/" || data[row].comment[0] === "#") {
             continue
         }
 
