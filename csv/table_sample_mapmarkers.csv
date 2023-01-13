@@ -1,12 +1,12 @@
 comment,layer,latlng,mapText,icon,popupText,home
-"# if comment starts with # or /, the whole line is ignored - can be used to (temporarily) disable otherwise valid table rows",,,,,,
+"# if comment starts with # or /, the whole table row is ignored - can be used to (temporarily) disable otherwise valid table rows",,,,,,
 ,# see https://github.com/uhhuu/uhhuu.github.io for documentation about the table structure,,,,,
-,POI,"978.5, 2741",,img/icon_omega.png,"<p style=""font-size:150%""> The party is here! </p>",YES
-,Places,"1199, 3095",,img/icon_ruins.png,<strong>ABANDONED RUINS</strong><p>Spooky ruins with ghosts and stuff,
-,POI,"1404, 2760",,img/icon_compass.png,<strong>Magic compass</strong> <p>The compass seems to point to this location,
-,Places,"1331, 2646",GNOME VILLAGE,img/icon_gnome.png,<strong>Here be gnomes!</strong><p>,
-,POI,"1500, 3000",,img/icon_suslik.png,<strong>Wyvern</strong><p>A wyvern has been spotted in the area,
-,POI,"1208, 2596",,img/icon_treasuremap.png,<strong>Treasure map</strong><p>The treasure map from goblins point here,
-,Places,"1130, 2750",,img/icon_portal.png,<strong>Magic portal</strong><p>A mystic portal is here,
-,POI,"1175, 2861",,fa-beer,<strong>Irish Pub</strong> <p><img src='https://wallup.net/wp-content/uploads/2017/11/23/519052-pointed_ears-fantasy_art-tavern-candles.jpg' alt='pub image' width=300> <br><i class='fa fa-home'></i> The good stuff.,
-,Places,"1451, 2532.5",,img/icon_elephant_pajamas.png,"<strong>Loxodon village</strong><p>Elephant people ate all the grass <i class=""fa fa-frown-o"" aria-hidden=""true""></i>",
+,POI,"1120, 1183",,img/icon_omega.png,"<p style=""font-size:150%""> The party is here! </p>",true
+,Places,"1006, 1290",,img/icon_ruins.png,<strong>ABANDONED RUINS</strong><p>Spooky ruins with ghosts and stuff,
+,POI,"1224, 1241",,img/icon_compass.png,<strong>Magic compass</strong> <p>The compass seems to point to this location,
+,Places,"1036, 1103",GNOME VILLAGE,img/icon_gnome.png,<strong>Here be gnomes!</strong><p>,
+,POI,"1120, 940",,img/icon_suslik.png,<strong>Wyvern</strong><p>A wyvern has been spotted in the area,
+,POI,"972, 1228",,img/icon_treasuremap.png,<strong>Treasure map</strong><p>The treasure map from goblins point here,
+,Places,"1099, 1243",,img/icon_portal.png,<strong>Magic portal</strong><p>A mystic portal appeared here during last full moon.,
+,POI,"1137.40625, 1183.78125",,fa-beer,<strong>The Glistening Termite Inn</strong> <p><img src='https://wallup.net/wp-content/uploads/2017/11/23/519052-pointed_ears-fantasy_art-tavern-candles.jpg' alt='pub image' width=300> <br><i class='fa fa-home'></i> The good stuff.,
+,Places,"1148.5, 1119.5",,img/icon_elephant_pajamas.png,"<strong>Loxodon village</strong><p>Cows are starving, elephant people ate all the grass <i class=""fa fa-frown-o"" aria-hidden=""true""></i>",

@@ -1,93 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <script>
-        // configuration
-        // some parameters may also be passed in URL (eg for testing purposes)
-        var url = new URL(window.location.toLocaleString());
-        console.log(url)
-        var paramSheet = url.searchParams.get("sheetURL");
-        var paramTitle = url.searchParams.get("title");
-        // Configuration - set in index.html, so that one can easily host multiple maps on same server location (just copy the .html and change appropriate constants)
-        // page title
-        var titleText
-        if (paramTitle == null || paramTitle === "") {
-            titleText = "D&D kaart - Imogeni Maad"
-        } else {
-            titleText = paramTitle
-        }
-
-        // CSV table table URL (if using Google Sheets, then the table must be published to Web in csv format)
-        var csvURL
-        if (paramSheet === null || paramSheet === "") {
-            csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgYjnAPdiJiOVcu6T1kCYIEnz27r_7It7Ipd1-G-hVXeVSHuGsU0NIl9QcB0y-qnXj_bY9ko8zfV5V/pub?output=csv"
-        } else {
-            csvURL = paramSheet
-            console.log("csvURL:" + csvURL)
-        }
-        // test gsheet url - https://docs.google.com/spreadsheets/d/e/2PACX-1vTS2CXWc_6l6zFHtTb9f5prQFgwDCSmqHjCY96bRd6zUU05ilejRrZ_M7XeF6wSr4H2SDFMq8HexRVF/pub?output=csv
-
-        // base map image
-        const baseMapURL = "img/map_imogen.jpg"
-        const baseMapAttribution = "Imogen map &copy; 2022 by Lohe Isok. Unauthorized copying and usage prohibited."
-        // base map bounds (map bounds should be of same scale as base map image, or the map will be skewed)
-        const boundsMinLat = 0
-        const boundsMinLng = 0
-        const boundsMaxLat = 3000
-        const boundsMaxLng = 4000
-
-    </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom map with POI-s from Google Sheet</title>
-
-    <!-- Main webpage css -->
-    <link rel="stylesheet" href="css/main.css" />
-
-    <!-- Google open sans font -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-
-    <!-- Leaflet css -->
-    <link rel="stylesheet" href="lib/leaflet-1.9.3/leaflet.css" />
-
-    <!-- Font awesome v4 -->
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-
-    <!-- Leaflet awesome markers -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
-
+    <title>Document</title>
 </head>
-
 <body>
-    <div class="marker-position">
-        <i class="fa fa-map-marker"></i>
-        Click on map
-    </div>
-
-    <div id="map"></div>
-
-    <!-- Javascripts -->
-
-    <!-- Main app script -->
-    <script src="js/main.js"></script>
-
-    <!-- 3rd party libraries -->
-
-    <!-- Leaflet js -->
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="lib/leaflet-1.9.3/leaflet.js"></script>
-
-    <!-- Leaflet with font awesome -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-
-    <!-- Papa Parse -->
-    <script src="lib/papaparse-5.3.2/papaparse.min.js"></script>
+    <meta http-equiv="refresh"
+    content="0; URL=imagemap.html?csvURL=https://docs.google.com/spreadsheets/d/e/2PACX-1vRgYjnAPdiJiOVcu6T1kCYIEnz27r_7It7Ipd1-G-hVXeVSHuGsU0NIl9QcB0y-qnXj_bY9ko8zfV5V/pub?output=csv" />
 </body>
-
 </html>

@@ -20,7 +20,7 @@ function init() {
     map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -2,
-        maxZoom: 4
+        maxZoom: 5
     });
     map.attributionControl.addAttribution(baseMapAttribution);
     let image = L.imageOverlay(baseMapURL, bounds).addTo(map);
@@ -30,8 +30,8 @@ function init() {
 /*    
     // test an image overlay at specific pos
     //    var bounds2 = [[1210, 2795], [1110, 2900.66]]
-    var bounds2 = [[1090, 2775], [1215, 2908]]
-    let image2 = L.imageOverlay("img/map_city_test.png", bounds2, { opacity: 0 }).addTo(map);
+    var bounds2 = [[1090, 1159], [1146, 1206]]
+    let image2 = L.imageOverlay("img/map_sample_city.png", bounds2, { opacity: 0 }).addTo(map);
     map.on('zoomend', function () {
         zoom = map.getZoom();
         if (zoom < 0) image2.setOpacity(0);
@@ -39,6 +39,7 @@ function init() {
         else image2.setOpacity(1);
     });
 */
+
     // click to find coordinates
     // obtaining coordinates after clicking on the map
     map.on("click", function (e) {
@@ -64,18 +65,17 @@ function init() {
         }
     });
 
+    // parse the csv table(s). Note that this runs asynchronously, don't expect it to have completed after this code block
     try {
         Papa.parse(csvURL, {
             download: true,
             header: true,
-            complete: parseCsv,
+            complete: parseCsvMapMarkers,
         });
     } catch (err) {
         console.log(err)
         alert(err)
     }
-
-    console.log("after csv parse")
 
     // add Home button
     const htmlTemplate =
@@ -141,7 +141,7 @@ function init() {
 /*
     parseCsv() is the callback function to parse csv table data
 */
-function parseCsv(data) {
+function parseCsvMapMarkers(data) {
     data = data.data;
 
     // for each row in table
@@ -154,11 +154,12 @@ function parseCsv(data) {
         }
 
         // check that there are coordinates in the row
-        let latlng = data[row].latlng
-        let commaPos = latlng.indexOf(',')
-        if (commaPos >= 0) {
-            let lat = parseFloat(latlng.substr(0, commaPos))
-            let lng = parseFloat(latlng.substr(commaPos + 1))
+        let latlng = data[row].latlng;
+        let commaPos = latlng.indexOf(',');
+        if (latlng.indexOf(',') >= 0) {
+            latlng = String(latlng).split(',')
+            let lat = parseFloat(latlng[0])
+            let lng = parseFloat(latlng[1])
 
             // TODO: group markers to layers
             let layer = data[row].layer;
@@ -211,8 +212,8 @@ function parseCsv(data) {
             }
 
             // if the coordinates are set to show a home icon, set the home icon
-            isHome = data[row].home
-            if (!(isHome === null || isHome.trim() === "")) {
+            isHome = String(data[row].home).trim()
+            if (isHome.toUpperCase() === "YES" || isHome.toUpperCase() === "TRUE") {
                 homeLng = lng
                 homeLat = lat
             }
