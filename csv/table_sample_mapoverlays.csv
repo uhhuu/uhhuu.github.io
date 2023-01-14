@@ -1,4 +1,3 @@
-comment,mainmap,imageOverlayURL,imageOverlaySource,boundsMin,boundsMax
+comment,mapOverlayUrl,mapOverlaySource,boundsMin,boundsMax,zoomOpacitys
 "# if comment starts with # or /, the whole table row is ignored - can be used to (temporarily) disable otherwise valid table rows",,,,,
-,true,img/map_sample.jpg,https://www.reddit.com/r/dndmaps/comments/1047rfa/my_world_map_just_80_stolen_from_obvious_real/,"0, 0","3000, 4000"
-,,img/map_sample_town.jpg,https://www.reddit.com/r/dndmaps/comments/zbswda/southern_city/,"1000,1000","1100,1100"
+,img/map_sample_city.png,https://www.reddit.com/r/dndmaps/comments/zbswda/southern_city/,"1090, 1159","1146, 1206","-1:0,0:0.2,1:0.4,2:0.6,999:1"
