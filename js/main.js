@@ -163,18 +163,18 @@ function parseCsvMaster(data) {
 
         // change map attribution, if present
         let mapAttribution = data[row].mapAttribution;
-        if (!(mapAttribution === null || mapAttribution === "")) {
+        if (!isEmptyNull(mapAttribution)) {
             map.attributionControl.addAttribution(mapAttribution);
         }
         // set page title, if present
         let pageTitle = String(data[row].pageTitle).trim();
-        if (!(pageTitle === null || pageTitle === "")) {
+        if (!isEmptyNull(pageTitle)) {
             document.title = pageTitle;
         }
 
         // parse map overlays csv, if present
         let csvMapOverlaysUrl = String(data[row].csvMapOverlaysUrl).trim()
-        if (!(csvMapOverlaysUrl === null || csvMapOverlaysUrl === "")) {
+        if (!isEmptyNull(csvMapOverlaysUrl)) {
 
             // Parse the map markers csv table. Note that this runs asynchronously, don't expect it to have completed after this code block
 
@@ -199,7 +199,7 @@ function parseCsvMaster(data) {
 
         // parse map markers csv, if present
         let csvMapMarkersUrl = String(data[row].csvMapMarkersUrl).trim();
-        if (!(csvMapMarkersUrl === null || csvMapMarkersUrl === "")) {
+        if (!isEmptyNull(csvMapMarkersUrl)) {
 
             // Parse the map markers csv table. Note that this runs asynchronously, don't expect it to have completed after this code block
             try {
@@ -233,25 +233,24 @@ function parseCsvMapOverlays(data) {
         }
 
         let mapOverlayUrl = data[row].mapOverlayUrl;
-        if (!(mapOverlayUrl === null || mapOverlayUrl === "")) {
+        if (!(isEmptyNull(mapOverlayUrl))) {
             console.log("new imageOverlay: " + mapOverlayUrl);
             let boundsMin = String(data[row].boundsMin).split(',');
             let boundsMax = String(data[row].boundsMax).split(',');
             let image = L.imageOverlay(mapOverlayUrl, [boundsMin, boundsMax]).addTo(map);
             let mainMap = String(data[row].mainMap).trim().toUpperCase();
-            let overlayObject = {imageOverlay: image, zoomOpacitys: []}
+            let overlayObject = { imageOverlay: image, zoomOpacitys: [] }
             let zoomOpacitys = String(data[row].zoomOpacitys).split(',');
-            console.log("zoomOpacitys",zoomOpacitys)
+            console.log("zoomOpacitys", zoomOpacitys)
             for (let i = 0; i < zoomOpacitys.length; i++) {
                 let zoomOpacity = String(zoomOpacitys[i]).split(':')
-                overlayObject.zoomOpacitys.push ({minZoom: zoomOpacity[0], opacity: zoomOpacity[1]});
+                overlayObject.zoomOpacitys.push({ minZoom: zoomOpacity[0], opacity: zoomOpacity[1] });
             }
             mapImageOverlays.push(overlayObject)
         }
     }
     isDoneParseCsvMapOverlays = true;
 }
-
 
 /*
     parseCsvMapMarkers() is the callback function to parse map markers csv table data
@@ -280,16 +279,16 @@ function parseCsvMapMarkers(data) {
             // TODO: group markers to layers
             let layer = data[row].layer;
 
-            // if there is an icon or popup text defined, show a popup icon
             let iconName = data[row].icon;
             let popupText = data[row].popupText;
 
             let marker = L.marker(L.latLng([lat, lng]));
             let hasMarker = false;
 
-            // use custom icon, if iconName is specified
-            if (!(iconName === null || iconName.trim() === "") || !(popupText === null || popupText.trim() === "")) {
-                if (!(iconName === null || iconName.trim() === "")) {
+            // if there is an icon or popup text defined, show a popup icon
+            if (!isEmptyNull(iconName) || !isEmptyNull(popupText)) {
+                // use custom icon, if iconName is specified
+                if (!isEmptyNull(iconName)) {
                     // check for font awesome
                     if (iconName.substring(0, 3) === "fa-") {
                         // not perfect, but a start.. low prio, since openclipart has much better selection
@@ -309,7 +308,7 @@ function parseCsvMapMarkers(data) {
 
             // if a mapText is defined, display text directly on map using tooltip
             const mapText = data[row].mapText
-            if (!(mapText === null || mapText.trim() === "")) {
+            if (!isEmptyNull(mapText)) {
                 let tooltipOptions = {
                     permanent: true,
                     offset: [0, 0],
@@ -342,3 +341,11 @@ function parseCsvMapMarkers(data) {
     if (newHome) map.flyTo([homeLat, homeLng]);
 
 }
+
+/* 
+  isEmptyNull() - tests if variable is undefined, null or empty string
+*/
+function isEmptyNull(tst) {
+    return (tst === undefined || tst === null || String(tst).trim() === "");
+}
+
