@@ -10,3 +10,4 @@ comment,layer,latlng,mapText,icon,popupText,home
 ,Places,"1099, 1243",,img/icon_portal.png,<strong>Magic portal</strong><p>A mystic portal appeared here during last full moon.,
 ,POI,"1137.40625, 1183.78125",,fa-beer,<strong>The Glistening Termite Inn</strong> <p><img src='https://wallup.net/wp-content/uploads/2017/11/23/519052-pointed_ears-fantasy_art-tavern-candles.jpg' alt='pub image' width=300> <br><i class='fa fa-home'></i> The good stuff.,
 ,Places,"1148.5, 1119.5",,img/icon_elephant_pajamas.png,"<strong>Loxodon village</strong><p>Cows are starving, elephant people ate all the grass <i class=""fa fa-frown-o"" aria-hidden=""true""></i>",
+,Places,"1194.5, 994",COW PASTURES,,,
