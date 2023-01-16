@@ -15,7 +15,7 @@
         var mapZoom = [-2, 4, -1];
 
         // following defaults may be overwritten in csv tables
-        var titleText = "Just a sample map with markers from CSV table";
+        var titleText = "Custom map with POI-s from CSV table";
         var baseMapAttribution = "Sample maps from reddit r/dndmaps";
 
         // parse url parameters, if given
@@ -46,7 +46,7 @@
         var paramMapZoom = url.searchParams.get("mapZoom");
         if (!(paramMapZoom === null || paramMapZoom === "")) {
             mapZoom = String(paramMapZoom).split(',');
-            console.log("mapBoundsMax", mapZoom);
+            console.log("mapZoom", mapZoom);
         }
 
     </script>

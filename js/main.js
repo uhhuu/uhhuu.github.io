@@ -12,7 +12,9 @@ window.addEventListener("DOMContentLoaded", init);
   init() function is called when page is loaded
 */
 function init() {
-    document.title = titleText
+    if (!isEmptyNull(titleText)) {
+        document.title = titleText;
+    }
 
     // Base map initialization
     map = L.map('map', {
