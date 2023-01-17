@@ -240,6 +240,8 @@ function parseCsvMapOverlays(data) {
             let boundsMin = String(data[row].boundsMin).split(',');
             let boundsMax = String(data[row].boundsMax).split(',');
             let image = L.imageOverlay(mapOverlayUrl, [boundsMin, boundsMax]).addTo(map);
+// hide by default
+            image.setOpacity(0);
             let overlayObject = { imageOverlay: image, zoomOpacitys: [] }
             let zoomOpacitys = String(data[row].zoomOpacitys).split(',');
             let currentZoom = map.getZoom();
@@ -247,9 +249,6 @@ function parseCsvMapOverlays(data) {
             for (let i = 0; i < zoomOpacitys.length; i++) {
                 let zoomOpacity = String(zoomOpacitys[i]).split(':')
                 overlayObject.zoomOpacitys.push({ minZoom: zoomOpacity[0], opacity: zoomOpacity[1] });
-                if (currentZoom <= zoomOpacity[0]) {
-                    image.setOpacity(zoomOpacity[1]);
-                }
             }
             mapImageOverlays.push(overlayObject)
         }
