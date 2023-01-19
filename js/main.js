@@ -239,8 +239,12 @@ function parseCsvMapOverlays(data) {
             console.log("new imageOverlay: " + mapOverlayUrl);
             let boundsMin = String(data[row].boundsMin).split(',');
             let boundsMax = String(data[row].boundsMax).split(',');
+            boundsMin[0] = parseFloat(boundsMin[0])
+            boundsMin[1] = parseFloat(boundsMin[1])
+            boundsMax[0] = parseFloat(boundsMax[0])
+            boundsMax[1] = parseFloat(boundsMax[1])
             let image = L.imageOverlay(mapOverlayUrl, [boundsMin, boundsMax]).addTo(map);
-// hide by default
+            // hide by default
             image.setOpacity(0);
             let overlayObject = { imageOverlay: image, zoomOpacitys: [] }
             let zoomOpacitys = String(data[row].zoomOpacitys).split(',');
@@ -250,7 +254,29 @@ function parseCsvMapOverlays(data) {
                 let zoomOpacity = String(zoomOpacitys[i]).split(':')
                 overlayObject.zoomOpacitys.push({ minZoom: zoomOpacity[0], opacity: zoomOpacity[1] });
             }
-            mapImageOverlays.push(overlayObject)
+            mapImageOverlays.push(overlayObject);
+
+            // add a zoom lens icon to zoom into the layer, if so requested
+            hasZoomLens = String(data[row].hasZoomLens).trim().toUpperCase();
+            if (hasZoomLens === "YES" || hasZoomLens === "TRUE") {
+
+                let lat = boundsMin[0] + (boundsMax[0] - boundsMin[0]) / 2;
+                let lng = boundsMin[1] + (boundsMax[1] - boundsMin[1]) / 2;
+                console.log("zoom marker at:", lat, lng)
+                let marker = L.marker(L.latLng([lat, lng]));
+                let markerIcon = L.icon({
+                    iconUrl: "img/icon_zoom_lens.png",
+                    iconSize: [30, 30]
+                });
+                marker.setIcon(markerIcon);
+                marker.options.title = mapOverlayUrl;
+                marker.options.myBounds = [boundsMin, boundsMax];
+                marker.addTo(map).on('click', function (e) {
+                    console.log(e.latlng, this.options.myBounds);
+                    map.flyToBounds(this.options.myBounds);
+                });
+            }
+
         }
     }
     isDoneParseCsvMapOverlays = true;
@@ -331,8 +357,8 @@ function parseCsvMapMarkers(data) {
             }
 
             // if the coordinates are set to show a home icon, set the home icon
-            isHome = String(data[row].home).trim()
-            if (isHome.toUpperCase() === "YES" || isHome.toUpperCase() === "TRUE") {
+            isHome = String(data[row].home).trim().toUpperCase()
+            if (isHome === "YES" || isHome === "TRUE") {
                 homeLng = lng;
                 homeLat = lat;
                 newHome = true;
