@@ -4,3 +4,4 @@ comment,mapOverlayUrl,mapOverlaySource,boundsMin,boundsMax,zoomOpacitys,hasZoomL
 ,img/map_partsiidia.png,,"1807.5, 1297.75","2165, 1899.5","-2:0,-1:0.5,0:0.7,999:1"
 ,img/map_brendon.png,,"1942.25, 1411.5","1981, 1463.5","0:0,1:0.3,2:0.5,999:1","true"
 ,img/map_kalia.png,,"568.75, 2807.5","619.75, 2875.5","0:0,1:0.3,2:0.5,999:1","true"
+,img/map_eeroz.png,,"1045.5, 1587","1090.5, 1632","0:0,1:0.3,2:0.5,999:1","true"

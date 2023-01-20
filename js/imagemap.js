@@ -3,7 +3,7 @@
 // global variables
 var map;
 var homeLat = -1, homeLng = -1;
-var isDoneParseCsvMapOverlays = true;
+var isEnabledHome = false;
 var mapImageOverlays = [];
 
 window.addEventListener("DOMContentLoaded", init);
@@ -134,27 +134,29 @@ function init() {
     const buttonBackToHome = document.querySelector(".back-to-home");
 
     function getCenterOfMap() {
-        buttonBackToHome.classList.remove("hidden");
+        if (isEnabledHome) {
+            buttonBackToHome.classList.remove("hidden");
 
-        buttonBackToHome.addEventListener("click", () => {
-            // to change zoom or not to change, that is the question
-            map.flyTo([homeLat, homeLng], mapZoom[2]);
-        });
+            buttonBackToHome.addEventListener("click", () => {
+                // to change zoom or not to change, that is the question
+                map.flyTo([homeLat, homeLng], mapZoom[2]);
+            });
 
-        map.on("moveend", () => {
-            const { lat: latCenter, lng: lngCenter } = map.getCenter();
+            map.on("moveend", () => {
+                const { lat: latCenter, lng: lngCenter } = map.getCenter();
 
-            const latC = latCenter.toFixed(3) * 1;
-            const lngC = lngCenter.toFixed(3) * 1;
+                const latC = latCenter.toFixed(3) * 1;
+                const lngC = lngCenter.toFixed(3) * 1;
 
-            const defaultCoordinate = [+homeLat.toFixed(3), +homeLng.toFixed(3)];
+                const defaultCoordinate = [+homeLat.toFixed(3), +homeLng.toFixed(3)];
 
-            const centerCoordinate = [latC, lngC];
+                const centerCoordinate = [latC, lngC];
 
-            if (compareTwoArrays(centerCoordinate, defaultCoordinate)) {
-                buttonBackToHome.classList.add("hidden");
-            }
-        });
+                if (compareTwoArrays(centerCoordinate, defaultCoordinate)) {
+                    buttonBackToHome.classList.add("hidden");
+                }
+            });
+        }
     }
 
     // add handler for zoom change (set map overlays opacities as needed)
@@ -183,6 +185,12 @@ const compareTwoArrays = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 /*
     parseCsvMaster() is the callback function to parse master csv table
+    following fields are recognized:
+        comment - if starts with / or #, the whole row is ignored
+        pageTitle - replaces the html \<title\> section. In case of multiple entries, next one overwrites previous.
+        csvMapOverlaysUrl - URL to map overlays csv table (map overlays are image overlays that can be displayed over certain areas in map, eg a detailed map of a city that appears at certain zoom levels).
+        mapAttribution - copyright notice for the map. Multiple entries are appended.
+        csvMapMarkersUrl - URL to the map overlays csv table.
 */
 function parseCsvMaster(data) {
     data = data.data;
@@ -212,9 +220,6 @@ function parseCsvMaster(data) {
 
             // Parse the map markers csv table. Note that this runs asynchronously, don't expect it to have completed after this code block
 
-            // use a global variable to wait until this is done before moving on, otherwise some stuff (like flyto home marker) wont work
-            isDoneParseCsvMapOverlays = false;
-
             try {
                 Papa.parse(csvMapOverlaysUrl, {
                     download: true,
@@ -225,9 +230,6 @@ function parseCsvMaster(data) {
                 console.log(err);
                 alert(err);
             }
-
-            // TODO: put a timeout here
-            // while (!isDoneParseCsvMapOverlays) { }
 
         }
 
@@ -254,6 +256,14 @@ function parseCsvMaster(data) {
 
 /*
     parseMapOverlays() is the callback function to parse master csv table
+    following fields are recognized:
+        comment - if starts with / or #, the whole row is ignored
+        mapOverlayUrl - URL to image file (see baseMapUrl in html parameters section above for notes)
+        mapOverlaySource - information field (credits) about the image source. Currently not used in program.
+        boundsMin - bottom-left coordinates "lat, lng" ( = Y, X) on base map for the image overlay
+        boundsMax - top-right coordinates (same format as boundsMin)
+        zoomOpacitys - image opacity depending on zoom level. Format is "maxzoom:opacity,maxzoom2:opacity2,etc".
+        hasZoomLens - display a zoom lens (magnifying glass) icon in centre of the overlay, to zoom into the area
 */
 function parseCsvMapOverlays(data) {
     data = data.data;
@@ -311,11 +321,21 @@ function parseCsvMapOverlays(data) {
 
         }
     }
-    isDoneParseCsvMapOverlays = true;
 }
 
 /*
     parseCsvMapMarkers() is the callback function to parse map markers csv table data
+    following fields are recognized:
+        comment - if starts with / or #, the whole row is ignored
+        layer (not yet implemented) - layer name, where marker appears. Markers are grouped in different layers that can be shown or hidden from map with a single click. 
+        latlng - map coordinates (lat, lng = Y, X) separated by comma, eg "1043.12, 1210.65"
+        mapText - Text displayed on map (leaflet tooltip), can be left empty for only an icon+popup text. 
+        icon - Icon for popup. Can be one of:
+            empty for default marker icon (only if popupText is not empty),
+            Font Awesome 4.7 icon (eg "fa-coffee") or 
+            specify image on webserver eg img/myicon.png
+        popupText - Popup text is displayed when icon is clicked
+        home - set to non-blank (eg yes/true) to have a marker associated with home button for centering map on the home marker (only one marker can be "home", last one takes precedence in case of multiple entries). Note that if multiple home markers are defined in separate map marker csv tables, which are loaded from the master csv, the home location can be random-ish, due to asynchronous parsing of the csv tables.
 */
 function parseCsvMapMarkers(data) {
     data = data.data;
@@ -394,6 +414,7 @@ function parseCsvMapMarkers(data) {
                 homeLng = lng;
                 homeLat = lat;
                 newHome = true;
+                isEnabledHome = true;
             }
 
         }
