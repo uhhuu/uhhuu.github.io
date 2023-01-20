@@ -53,6 +53,7 @@ The table has following fields:
 - boundsMax - top-right coordinates (same format as boundsMin)
 - zoomOpacitys - image opacity depending on zoom level. Format is "maxzoom:opacity,maxzoom2:opacity2,etc".
 Must be ordered from smaller zoom level to larger and the maxzoom value that is greater than or equal to current zoom level determines the image opacity for this zoom level. For always visible image use "999:1"; for image that is visible only starting at zoom level 2, use "1:0,999:1"; for image to become gradually more visible, use something like "-1:0,0:0.2,1:0.4,2:0.6,999:1"
+- hasZoomLens - display a zoom lens (magnifying glass) icon in centre of the overlay, to zoom into the area
 
 ### Map Marker csv table (csvMapMarkersUrl in master csv table)
 This table contains markers that are displayed at specific map coordinates. A marker can be a text label on map (leaflet tooltip), an icon with popup text on click, or both.
