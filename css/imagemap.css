@@ -18,6 +18,11 @@ body {
 
 }
 
+em {
+  font-weight: bold;
+  font-style: normal;
+}
+
 .marker-position {
   position: absolute;
   bottom: 0;
