@@ -1,5 +1,8 @@
 # leaflet-custom-map
-Simple web application to display a custom interactive map with markers from a csv format table. The table can be either local (eg csv/table.csv) or a Google Sheet that has been published to web in csv format (e.g https://docs.google.com/spreadsheets/d/e/.../pub?output=csv). In the latter case the data file can be easily edited by multiple people.
+Simple web application to display a custom map (a bitmap image, or multiple images with different detail level, overlayed depending on zoom level) with markers from a csv format table.
+The table can be either local (eg csv/table.csv) or a Google Sheet that has been published to web in csv format (e.g https://docs.google.com/spreadsheets/d/e/.../pub?output=csv). 
+In the latter case the data file can be easily edited by multiple people.
+
 Use case - custom fantasy game (e.g D&D) world map with points of interest specific to a player or group of players.
 CSV based data table is used to enable relatively easy adding of markers without need to change code or using complex backend / SQL database interaction (thus also simplifying hosting).
 
@@ -27,11 +30,11 @@ Main application is imagemap.html, which can be passed following parameters in t
 
 ## CSV tables
 All csv tables have following things in common:
-- the table URL can be local, eg csvUrl=csv/table_master.csv or remote, e.g google sheets table that has been published to web in csv format)
+- the table URL can be local, eg csvUrl=csv/table_master.csv or remote, e.g google sheets table that has been published to web in csv format
 - all fields should be specified as text (eg if using google sheets)
 - decimals separator is '.', subfields separator is ',' (e.g coordinates can be specified as "653.128, 1003.84")
 - all coordinates are specified in "lat, lng" format, i.e y before x (as is default for leaflet)
-- first field is "comment". If it starts with / or #, the whole table row is regarded as comment and ignored. This can also be used to (temporarily comment out otherwise valid table rows.'
+- first field is "comment". If it starts with / or #, the whole table row is regarded as comment and ignored. This can also be used to temporarily comment out otherwise valid table rows.
 
 ### Master csv table (csvMasterUrl in html parameter)
 This table contains references to other csv tables and generic info.
@@ -41,10 +44,11 @@ The table has following fields:
 - pageTitle - replaces the html \<title\> section. In case of multiple entries, next one overwrites previous.
 - csvMapOverlaysUrl - URL to map overlays csv table (map overlays are image overlays that can be displayed over certain areas in map, eg a detailed map of a city that appears at certain zoom levels).
 - mapAttribution - copyright notice for the map. Multiple entries are appended.
-- csvMapMarkersUrl - URL to the map overlays csv table.
+- csvMapMarkersUrl - URL to the map markers csv table (points of interest on the map, represented by icons).
 
 ### Map Overlays csv table (csvMapOverlaysUrl in master csv table)
-This table contains map image overlays that are displayed at specific map coordinates with opacity relative to zoom level. The overlay may be for example a detailed city map that is only displayed if the map is zoomed in to certain level.
+This table contains map image overlays that are displayed at specific map coordinates with opacity relative to zoom level. 
+The overlay may be for example a detailed city map that is only displayed if the map is zoomed in to certain level.
 The table has following fields:
 - comment - see above.
 - mapOverlayUrl - URL to image file (see baseMapUrl in html parameters section above for notes)
@@ -52,7 +56,9 @@ The table has following fields:
 - boundsMin - bottom-left coordinates "lat, lng" ( = Y, X) on base map for the image overlay
 - boundsMax - top-right coordinates (same format as boundsMin)
 - zoomOpacitys - image opacity depending on zoom level. Format is "maxzoom:opacity,maxzoom2:opacity2,etc".
-Must be ordered from smaller zoom level to larger and the maxzoom value that is greater than or equal to current zoom level determines the image opacity for this zoom level. For always visible image use "999:1"; for image that is visible only starting at zoom level 2, use "1:0,999:1"; for image to become gradually more visible, use something like "-1:0,0:0.2,1:0.4,2:0.6,999:1"
+Must be ordered from smaller zoom level to larger and the maxzoom value that is greater than or equal to current zoom level determines the image opacity for this zoom level. 
+	For always visible image use "999:1"; for image that is visible only starting at zoom level 2, use "1:0,999:1"; 
+	for image to become gradually more visible, use something like "-1:0,0:0.2,1:0.4,2:0.6,999:1"
 - hasZoomLens - display a zoom lens (magnifying glass) icon in centre of the overlay, to zoom into the area
 
 ### Map Marker csv table (csvMapMarkersUrl in master csv table)
@@ -67,7 +73,11 @@ The table has following fields:
 	- Font Awesome 4.7 icon (eg "fa-coffee") or 
 	- specify image on webserver eg img/myicon.png
 - popupText - Popup text is displayed when icon is clicked
-- home - set to non-blank (eg yes/true) to have a marker associated with home button for centering map on the home marker (only one marker can be "home", last one takes precedence in case of multiple entries). Note that if multiple home markers are defined in separate map marker csv tables, which are loaded from the master csv, the home location can be random-ish, due to asynchronous parsing of the csv tables.
+- home - set to non-blank (eg yes/true) to have a marker associated with home button for centering map on the home marker 
+	(only one marker can be "home", last one takes precedence in case of multiple entries). 
+	Note that if multiple home markers are defined in separate map marker csv tables, which are loaded from the master csv, 
+	the home location can be random-ish, due to asynchronous parsing of the csv tables.
 
 ## Known issues
-Reading multiple csv tables can make page loading a little sluggish, but thats the cost to pay for otherwise lightweight no-sql-no-backend-simple-hosting solution. Alternatively the different tables could be merged into one master table (with something like data type field distinguishing between table row contents), but that would make the solution less elegant imo. Win-some-lose-some.
+Reading multiple csv tables can make page loading a little sluggish, but thats the cost to pay for otherwise lightweight no-sql-no-backend-simple-hosting solution. 
+Alternatively the different tables could be merged into one master table (with something like data type field distinguishing between table row contents), but that would make the solution less elegant imo. Win-some-lose-some.
